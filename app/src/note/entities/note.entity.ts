@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 export class Note {
@@ -8,6 +8,6 @@ export class Note {
   @Column()
   title: string;
 
-  @Column('text')
+  @Column("text")
   content: string;
 }
