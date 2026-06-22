@@ -1,9 +1,11 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { NoteModule } from "./note/note.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { LabelsModule } from "./labels/labels.module";
+import { HighlightsModule } from "./highlights/highlights.module";
+import { NotesModule } from "./notes/notes.module";
 
 @Module({
   imports: [
@@ -26,7 +28,9 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
         synchronize: true,
       }),
     }),
-    NoteModule,
+    LabelsModule,
+    HighlightsModule,
+    NotesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
