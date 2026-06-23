@@ -1,9 +1,9 @@
-import { UploadNotes } from "@/components/UploadNotes";
+import { FolderUploadButton } from "./components/FolderUploadButton";
 
 function App() {
   return (
     <div>
-      <UploadNotes />
+      <FolderUploadButton />
     </div>
   );
 }
