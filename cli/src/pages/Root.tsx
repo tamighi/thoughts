@@ -5,7 +5,6 @@ const Root = () => {
   return (
     <div>
       <AppBar />
-      <h1>Hello root</h1>
       <Outlet />
     </div>
   );
