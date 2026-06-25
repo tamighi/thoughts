@@ -1,26 +1,18 @@
-export type CreateNoteDto = {
-  title: string;
-  content: string;
-  labelIds?: number[];
-};
+import type { CreateNoteDto, INote } from "@/types/note";
+import { http } from "./http";
 
-const API_URL = "http://localhost:3000/notes";
+const API_URL = "http://localhost:3000";
 
 class NotesService {
-  async createNote(dto: CreateNoteDto) {
-    const res = await fetch(API_URL, {
+  list(): Promise<INote[]> {
+    return http<INote[]>(`${API_URL}/notes`);
+  }
+
+  create(dto: CreateNoteDto): Promise<INote> {
+    return http<INote>(`${API_URL}/notes`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(dto),
     });
-
-    if (!res.ok) {
-      throw new Error(`Failed to create note: ${res.status}`);
-    }
-
-    return res.json();
   }
 
   async uploadMarkdownFiles(files: File[], labelIds?: number[]) {
@@ -35,7 +27,7 @@ class NotesService {
 
       const title = file.name.replace(/\.md$/i, "");
 
-      const note = await this.createNote({
+      const note = await this.create({
         title,
         content,
         labelIds,
