@@ -15,7 +15,7 @@ const NotesPage = () => {
       {notes?.length === 0 ? (
         <p>No notes found.</p>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
           {notes?.map((note) => (
             <NoteListItem key={note.id} note={note} />
           ))}

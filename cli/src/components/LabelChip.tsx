@@ -10,17 +10,17 @@ interface LabelChipProps {
 const LabelChip = ({ label, className }: LabelChipProps) => {
   return (
     <span className={cn("group relative inline-block", className)}>
-      <span
-        className={cn(
-          "inline-flex items-center rounded-full",
-          "bg-zinc-800 px-3 py-1",
-          "text-sm text-zinc-100",
-        )}
-      >
-        {label.content}
-      </span>
-
-      {label.definition && <HoverCard>{label.definition}</HoverCard>}
+      <HoverCard content={label.definition}>
+        <span
+          className={cn(
+            "inline-flex items-center rounded-full",
+            "bg-zinc-800 px-3 py-1",
+            "text-sm text-zinc-100",
+          )}
+        >
+          {label.content}
+        </span>
+      </HoverCard>
     </span>
   );
 };

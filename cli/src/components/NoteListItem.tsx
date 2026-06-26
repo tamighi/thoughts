@@ -1,5 +1,6 @@
 import type { INote } from "@/types/note";
 import LabelChip from "./LabelChip";
+import HighlightedNote from "./HighlightedNote";
 
 interface NoteListItemProps {
   note: INote;
@@ -18,7 +19,7 @@ const NoteListItem = ({ note }: NoteListItemProps) => {
         </div>
       </div>
 
-      <p className="whitespace-break-spaces">{note.content}</p>
+      <HighlightedNote note={note} />
     </div>
   );
 };
