@@ -1,4 +1,5 @@
 import type { INote } from "@/types/note";
+import LabelChip from "./LabelChip";
 
 interface NoteListItemProps {
   note: INote;
@@ -6,24 +7,19 @@ interface NoteListItemProps {
 
 const NoteListItem = ({ note }: NoteListItemProps) => {
   return (
-    <li>
-      <h2>{note.title}</h2>
+    <div>
+      <div className="flex gap-2">
+        <h2 className="text-xl font-semibold mb-2">{note.title}</h2>
 
-      <p>{note.content}</p>
-
-      {note.labels?.length ? (
         <div>
-          <p>Labels:</p>
-          <ul>
-            {note.labels.map((label) => (
-              <li key={label.id}>{label.content}</li>
-            ))}
-          </ul>
+          {note.labels?.map((label) => (
+            <LabelChip label={label} key={label.id} />
+          ))}
         </div>
-      ) : null}
+      </div>
 
-      <p>Highlights: {note.highlights?.length ?? 0}</p>
-    </li>
+      <p className="whitespace-break-spaces">{note.content}</p>
+    </div>
   );
 };
 

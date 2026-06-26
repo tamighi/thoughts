@@ -9,17 +9,17 @@ const NotesPage = () => {
   if (error) return <div>Failed to load notes.</div>;
 
   return (
-    <div>
-      <h1>Notes</h1>
+    <div className="p-4">
+      <h1 className="text-3xl font-bold mb-4">Notes</h1>
 
       {notes?.length === 0 ? (
         <p>No notes found.</p>
       ) : (
-        <ul>
+        <div className="flex flex-col gap-4">
           {notes?.map((note) => (
             <NoteListItem key={note.id} note={note} />
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
