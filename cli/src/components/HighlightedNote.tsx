@@ -13,7 +13,7 @@ const HighlightedNote = ({ note }: HighlightedNoteProps) => {
   let cursor = 0;
 
   return (
-    <p className="whitespace-break-spaces">
+    <div className="whitespace-break-spaces">
       {highlights.map((highlight) => {
         const before = note.content.slice(cursor, highlight.start);
         const highlighted = note.content.slice(
@@ -37,7 +37,7 @@ const HighlightedNote = ({ note }: HighlightedNoteProps) => {
       })}
 
       {note.content.slice(cursor)}
-    </p>
+    </div>
   );
 };
 

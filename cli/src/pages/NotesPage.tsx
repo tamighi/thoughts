@@ -1,25 +1,40 @@
 import { useNotes } from "@/hooks/query/useNotes";
 import NoteListItem from "@/components/NoteListItem";
+import React from "react";
+import Pagination from "@/components/Pagination";
 
 const NotesPage = () => {
-  const { data: notes, isLoading, error } = useNotes();
+  const [page, setPage] = React.useState(1);
+
+  const { data, isLoading, error } = useNotes({
+    page,
+    limit: 10,
+  });
 
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return <div>Failed to load notes.</div>;
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-bold mb-4">Notes</h1>
+    <div className="flex flex-col gap-6">
+      <h1 className="text-3xl font-bold">Notes</h1>
 
-      {notes?.length === 0 ? (
+      {data?.items.length === 0 ? (
         <p>No notes found.</p>
       ) : (
         <div className="flex flex-col gap-8">
-          {notes?.map((note) => (
+          {data?.items.map((note) => (
             <NoteListItem key={note.id} note={note} />
           ))}
         </div>
+      )}
+
+      {data && (
+        <Pagination
+          page={data.meta.page}
+          totalPages={data.meta.totalPages}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );

@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { In, Repository } from "typeorm";
+import { ILike, In, Repository } from "typeorm";
 
 import { Label } from "../labels/entities/label.entity";
 import { CreateNoteDto } from "./dto/create-note.dto";
 import { UpdateNoteDto } from "./dto/update-note.dto";
 import { Note } from "./entities/note.entity";
+import { FindNotesQueryDto } from "./dto/find-notes-query-dto";
 
 @Injectable()
 export class NotesService {
@@ -31,13 +32,32 @@ export class NotesService {
     return this.notesRepo.save(note);
   }
 
-  findAll() {
-    return this.notesRepo.find({
+  async findAll(query: FindNotesQueryDto) {
+    const page = query.page ?? 1;
+    const take = query.limit ?? 10;
+    const skip = (page - 1) * take;
+
+    const where = {
+      ...(query.title ? { title: ILike(`%${query.title}%`) } : {}),
+    };
+
+    const [items, total] = await this.notesRepo.findAndCount({
+      where,
+      skip,
+      take,
+      order: {
+        createdAt: "DESC",
+      },
       relations: {
         labels: true,
         highlights: true,
       },
     });
+
+    return {
+      items,
+      meta: { total, page, limit: take, totalPages: Math.ceil(total / take) },
+    };
   }
 
   findOne(id: number) {

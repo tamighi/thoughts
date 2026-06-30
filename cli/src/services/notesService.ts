@@ -1,11 +1,13 @@
-import type { CreateNoteDto, INote } from "@/types/note";
+import type { CreateNoteDto, INote, NotesQuery } from "@/types/note";
 import { http } from "./http";
+import type { IPaginatedResult } from "@/types/pagination";
 
 const API_URL = "http://localhost:3000";
 
 class NotesService {
-  list(): Promise<INote[]> {
-    return http<INote[]>(`${API_URL}/notes`);
+  list(query?: NotesQuery): Promise<IPaginatedResult<INote>> {
+    const url = `${API_URL}/notes?${this.queryToSearchParams(query ?? {})}`;
+    return http<IPaginatedResult<INote>>(url);
   }
 
   create(dto: CreateNoteDto): Promise<INote> {
@@ -36,6 +38,16 @@ class NotesService {
       results.push(note);
     }
     return results;
+  }
+
+  protected queryToSearchParams(query: object) {
+    const searchParams = new URLSearchParams(
+      Object.entries(query)
+        .filter(([, v]) => v !== undefined && v !== null)
+        .map(([k, v]) => [k, String(v)]),
+    );
+
+    return searchParams.toString();
   }
 }
 
