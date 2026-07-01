@@ -1,17 +1,20 @@
+import { config } from "@/config";
 import type { CreateNoteDto, INote, NotesQuery } from "@/types/note";
-import { http } from "./http";
 import type { IPaginatedResult } from "@/types/pagination";
+import { AbstractApi } from "./abstractApi";
 
-const API_URL = "http://localhost:3000";
+class NotesService extends AbstractApi {
+  constructor() {
+    super(`${config.apiUrl}/notes`);
+  }
 
-class NotesService {
   list(query?: NotesQuery): Promise<IPaginatedResult<INote>> {
-    const url = `${API_URL}/notes?${this.queryToSearchParams(query ?? {})}`;
-    return http<IPaginatedResult<INote>>(url);
+    const url = `${this.baseUrl}?${this.queryToSearchParams(query ?? {})}`;
+    return this.request<IPaginatedResult<INote>>(url);
   }
 
   create(dto: CreateNoteDto): Promise<INote> {
-    return http<INote>(`${API_URL}/notes`, {
+    return this.request<INote>(this.baseUrl, {
       method: "POST",
       body: JSON.stringify(dto),
     });
@@ -38,16 +41,6 @@ class NotesService {
       results.push(note);
     }
     return results;
-  }
-
-  protected queryToSearchParams(query: object) {
-    const searchParams = new URLSearchParams(
-      Object.entries(query)
-        .filter(([, v]) => v !== undefined && v !== null)
-        .map(([k, v]) => [k, String(v)]),
-    );
-
-    return searchParams.toString();
   }
 }
 
