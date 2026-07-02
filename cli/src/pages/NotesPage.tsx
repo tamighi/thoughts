@@ -8,7 +8,7 @@ const NotesPage = () => {
 
   const { data, isLoading, error } = useNotes({
     page,
-    limit: 10,
+    limit: 5,
   });
 
   if (isLoading) return <div>Loading...</div>;
