@@ -1,4 +1,4 @@
-import { useNotes } from "@/hooks/query/useNotes";
+import { useNotes } from "@/hooks/query/notes/useNotes";
 import NoteListItem from "@/components/NoteListItem";
 import React from "react";
 import Pagination from "@/components/Pagination";

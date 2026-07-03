@@ -1,13 +1,10 @@
 import { labelsService } from "@/services/labelsService";
 import { useQuery } from "@tanstack/react-query";
+import { labelsKey } from "./labelsKey";
 
-export const labelsKey = {
-  all: ["labels"] as const,
-};
-
-export function useLabels() {
+export const useLabels = () => {
   return useQuery({
     queryKey: labelsKey.all,
-    queryFn: labelsService.list,
+    queryFn: () => labelsService.list(),
   });
-}
+};
