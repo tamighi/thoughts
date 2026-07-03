@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import CreateLabelDialog from "@/components/CreateLabelDialog";
 import Dialog from "@/components/Dialog";
 import LabelItem from "@/components/LabelItem";
 import { useLabels } from "@/hooks/query/labels/useLabels";
@@ -22,13 +23,11 @@ const LabelsPage = () => {
         <h1 className="text-3xl font-bold">Labels</h1>
         <Button onClick={() => setCreateOpen(true)}>New label</Button>
       </div>
-      <Dialog
+
+      <CreateLabelDialog
         open={createOpen}
-        title="Create label"
         onClose={() => setCreateOpen(false)}
-      >
-        Hello world
-      </Dialog>
+      />
 
       {data?.length === 0 ? (
         <p>No labels found.</p>
