@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
-import { Label } from "./entities/label.entity";
 import { CreateLabelDto } from "./dto/create-label.dto";
 import { UpdateLabelDto } from "./dto/update-label.dto";
+import { Label } from "./entities/label.entity";
 
 @Injectable()
 export class LabelsService {
