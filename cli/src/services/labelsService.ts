@@ -18,6 +18,13 @@ class LabelsService extends AbstractApi {
       body: JSON.stringify(dto),
     });
   }
+
+  delete(id: number): Promise<void> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.request<void>(url, {
+      method: "DELETE",
+    });
+  }
 }
 
 export const labelsService = new LabelsService();
