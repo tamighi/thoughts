@@ -1,11 +1,17 @@
 import type { INote } from "@/types/note";
+import type { HTMLAttributes } from "react";
 import HoverCard from "./HoverCard";
+import { cn } from "@/utils/cn";
 
-interface HighlightedNoteProps {
+interface HighlightedNoteProps extends HTMLAttributes<HTMLDivElement> {
   note: INote;
 }
 
-const HighlightedNote = ({ note }: HighlightedNoteProps) => {
+const HighlightedNote = ({
+  note,
+  className,
+  ...props
+}: HighlightedNoteProps) => {
   const highlights = [...(note.highlights ?? [])].sort(
     (a, b) => a.start - b.start,
   );
@@ -13,7 +19,7 @@ const HighlightedNote = ({ note }: HighlightedNoteProps) => {
   let cursor = 0;
 
   return (
-    <div className="whitespace-break-spaces">
+    <div className={cn("whitespace-break-spaces", className)} {...props}>
       {highlights.map((highlight) => {
         const before = note.content.slice(cursor, highlight.start);
         const highlighted = note.content.slice(
