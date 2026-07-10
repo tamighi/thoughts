@@ -1,15 +1,23 @@
 import { useNotes } from "@/hooks/query/notes/useNotes";
 import NoteListItem from "@/components/NoteListItem";
-import React from "react";
 import Pagination from "@/components/Pagination";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 const NotesPage = () => {
-  const [page, setPage] = React.useState(1);
+  const { page = 1, limit = 5, title } = useSearch({ from: "/notes" });
+  const navigate = useNavigate({ from: "/notes" });
 
-  const { data, isLoading, error } = useNotes({
-    page,
-    limit: 5,
-  });
+  const { data, isLoading, error } = useNotes({ page, limit, title });
+
+  //TODO: Reset pages if filter changes
+  const setPage = (newPage: number) => {
+    navigate({
+      search: (previous) => ({
+        ...previous,
+        page: newPage,
+      }),
+    });
+  };
 
   if (isLoading) return <div>Loading...</div>;
 

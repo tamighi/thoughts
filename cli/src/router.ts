@@ -9,6 +9,7 @@ import NoteDetailPage from "./pages/NoteDetailPage";
 import LabelsPage from "./pages/LabelsPage";
 import UploadPage from "./pages/UploadPage";
 import HighlightsPage from "./pages/HighlightsPage";
+import type { NotesQuery } from "./types/note";
 
 const root = createRootRoute({
   component: Root,
@@ -17,6 +18,20 @@ const root = createRootRoute({
 const homeRoute = createRoute({
   getParentRoute: () => root,
   path: "/",
+  component: NotesPage,
+});
+
+const notesRoute = createRoute({
+  getParentRoute: () => root,
+  path: "/notes",
+  validateSearch: (search): NotesQuery => ({
+    page: Math.max(1, Number(search.page) || 1),
+    limit: Math.max(1, Number(search.limit) || 5),
+    title:
+      typeof search.title === "string" && search.title.trim()
+        ? search.title
+        : undefined,
+  }),
   component: NotesPage,
 });
 
@@ -46,6 +61,7 @@ const uploadRoute = createRoute({
 
 const routeTree = root.addChildren([
   homeRoute,
+  notesRoute,
   noteDetailRoute,
   labelsRoute,
   highlightsRoute,
