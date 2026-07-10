@@ -10,6 +10,7 @@ import LabelsPage from "./pages/LabelsPage";
 import UploadPage from "./pages/UploadPage";
 import HighlightsPage from "./pages/HighlightsPage";
 import type { NotesQuery } from "./types/note";
+import HomePage from "./pages/HomePage";
 
 const root = createRootRoute({
   component: Root,
@@ -18,7 +19,7 @@ const root = createRootRoute({
 const homeRoute = createRoute({
   getParentRoute: () => root,
   path: "/",
-  component: NotesPage,
+  component: HomePage,
 });
 
 const notesRoute = createRoute({

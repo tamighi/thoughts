@@ -4,11 +4,11 @@ const AppBar = () => {
   return (
     <header className="flex items-center justify-between border-b p-4">
       <Link to="/" className="font-semibold">
-        Notes
+        Home
       </Link>
 
       <nav className="flex items-center gap-4">
-        <Link to="/">Notes</Link>
+        <Link to="/notes">Notes</Link>
         <Link to="/highlights">Highlights</Link>
         <Link to="/labels">Labels</Link>
         <Link to="/upload">Upload</Link>
