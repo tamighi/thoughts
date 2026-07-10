@@ -13,6 +13,10 @@ class NotesService extends AbstractApi {
     return this.request<IPaginatedResult<INote>>(url);
   }
 
+  findOne(id: number): Promise<INote> {
+    return this.request<INote>(`${this.baseUrl}/${id}`);
+  }
+
   create(dto: CreateNoteDto): Promise<INote> {
     return this.request<INote>(this.baseUrl, {
       method: "POST",
