@@ -1,7 +1,7 @@
-import Button from "@/components/Button";
-import CreateLabelDialog from "@/components/CreateLabelDialog";
-import Dialog from "@/components/Dialog";
-import LabelItem from "@/components/LabelItem";
+import Button from "@/components/ui/Button";
+import CreateLabelDialog from "@/components/label/CreateLabelDialog";
+import Dialog from "@/components/ui/Dialog";
+import LabelItem from "@/components/label/LabelItem";
 import { useLabels } from "@/hooks/query/labels/useLabels";
 import React from "react";
 

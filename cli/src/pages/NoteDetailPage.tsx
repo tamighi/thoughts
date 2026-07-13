@@ -1,7 +1,7 @@
 import { useParams } from "@tanstack/react-router";
 import { useNote } from "@/hooks/query/useNote";
-import HighlightedNote from "@/components/HighlightedNote";
-import NoteHighlights from "@/components/NoteHighlights";
+import HighlightedNote from "@/components/note/HighlightedNote";
+import NoteHighlights from "@/components/note/NoteHighlights";
 
 const NoteDetailPage = () => {
   const { noteId } = useParams({

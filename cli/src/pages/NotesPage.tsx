@@ -1,6 +1,6 @@
 import { useNotes } from "@/hooks/query/notes/useNotes";
-import NoteListItem from "@/components/NoteListItem";
-import Pagination from "@/components/Pagination";
+import NoteListItem from "@/components/note/NoteListItem";
+import Pagination from "@/components/ui/Pagination";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 
 const NotesPage = () => {

@@ -1,4 +1,4 @@
-import LabelChip from "@/components/LabelChip";
+import LabelChip from "@/components/label/LabelChip";
 import type { Highlight } from "@/types/highlight";
 
 type Props = {

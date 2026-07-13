@@ -1,10 +1,10 @@
-import Dialog from "@/components/Dialog";
-import Button from "@/components/Button";
+import Dialog from "@/components/ui/Dialog";
+import Button from "@/components/ui/Button";
 import { useCreateLabel } from "@/hooks/query/labels/useCreateLabel";
 import type { CreateLabelDto } from "@/types/label";
 import React from "react";
-import Input from "./Input";
-import Textarea from "./Textarea";
+import Input from "../ui/Input";
+import Textarea from "../ui/Textarea";
 
 type CreateLabelDialogProps = {
   open: boolean;

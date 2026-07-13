@@ -1,4 +1,4 @@
-import HighlightItem from "./HighlightItem";
+import HighlightItem from "../highlight/HighlightItem";
 import type { Note } from "@/types/note";
 
 type Props = {

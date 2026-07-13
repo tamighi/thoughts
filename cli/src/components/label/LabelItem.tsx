@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Button from "@/components/Button";
-import ConfirmDialog from "@/components/ConfirmDialog";
+import Button from "@/components/ui/Button";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { useDeleteLabel } from "@/hooks/query/labels/useDeleteLabel";
 import type { Label } from "@/types/label";
 

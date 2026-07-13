@@ -1,7 +1,7 @@
 import type { Note } from "@/types/note";
 import { Link } from "@tanstack/react-router";
 import HighlightedNote from "./HighlightedNote";
-import LabelChip from "./LabelChip";
+import LabelChip from "../label/LabelChip";
 
 interface NoteListItemProps {
   note: Note;

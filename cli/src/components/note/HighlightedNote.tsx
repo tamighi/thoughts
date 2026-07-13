@@ -1,6 +1,6 @@
 import type { Note } from "@/types/note";
 import type { HTMLAttributes } from "react";
-import HoverCard from "./HoverCard";
+import HoverCard from "../ui/HoverCard";
 import { cn } from "@/utils/cn";
 
 interface HighlightedNoteProps extends HTMLAttributes<HTMLDivElement> {
