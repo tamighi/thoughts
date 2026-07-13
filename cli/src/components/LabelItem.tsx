@@ -3,10 +3,10 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { useDeleteLabel } from "@/hooks/query/labels/useDeleteLabel";
-import type { ILabel } from "@/types/label";
+import type { Label } from "@/types/label";
 
 interface LabelItemProps {
-  label: ILabel;
+  label: Label;
 }
 
 const LabelItem = ({ label }: LabelItemProps) => {

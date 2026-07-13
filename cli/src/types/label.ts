@@ -1,12 +1,12 @@
-import type { IHighlight } from "./highlight";
-import type { INote } from "./note";
+import type { Highlight } from "./highlight";
+import type { Note } from "./note";
 
-export interface ILabel {
+export interface Label {
   id: number;
   content: string;
   definition?: string;
-  highlights?: IHighlight[];
-  notes?: INote[];
+  highlights?: Highlight[];
+  notes?: Note[];
   createdAt: Date;
   updatedAt: Date;
 }

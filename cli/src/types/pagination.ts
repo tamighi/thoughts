@@ -1,16 +1,16 @@
-export interface IPaginationQuery {
+export interface PaginationQuery {
   page?: number;
   limit?: number;
 }
 
-export interface IPaginationMeta {
+export interface PaginationMeta {
   total: number;
   page: number;
   limit: number;
   totalPages: number;
 }
 
-export interface IPaginatedResult<T> {
+export interface PaginatedResult<T> {
   items: T[];
-  meta: IPaginationMeta;
+  meta: PaginationMeta;
 }

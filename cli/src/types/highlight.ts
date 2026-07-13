@@ -1,14 +1,14 @@
-import type { ILabel } from "./label";
-import type { INote } from "./note";
+import type { Label } from "./label";
+import type { Note } from "./note";
 
-export interface IHighlight {
+export interface Highlight {
   id: number;
   start: number;
   length: number;
   comment?: string;
   noteId: number;
-  note?: INote;
-  labels?: ILabel[];
+  note?: Note;
+  labels?: Label[];
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,10 +1,10 @@
-import type { INote } from "@/types/note";
+import type { Note } from "@/types/note";
 import { Link } from "@tanstack/react-router";
 import HighlightedNote from "./HighlightedNote";
 import LabelChip from "./LabelChip";
 
 interface NoteListItemProps {
-  note: INote;
+  note: Note;
 }
 
 const NoteListItem = ({ note }: NoteListItemProps) => {

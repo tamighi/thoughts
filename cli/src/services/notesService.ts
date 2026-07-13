@@ -1,6 +1,6 @@
 import { config } from "@/config";
-import type { CreateNoteDto, INote, NotesQuery } from "@/types/note";
-import type { IPaginatedResult } from "@/types/pagination";
+import type { CreateNoteDto, Note, NotesQuery } from "@/types/note";
+import type { PaginatedResult } from "@/types/pagination";
 import { AbstractApi } from "./abstractApi";
 
 class NotesService extends AbstractApi {
@@ -8,17 +8,17 @@ class NotesService extends AbstractApi {
     super(`${config.apiUrl}/notes`);
   }
 
-  list(query?: NotesQuery): Promise<IPaginatedResult<INote>> {
+  list(query?: NotesQuery): Promise<PaginatedResult<Note>> {
     const url = `${this.baseUrl}?${this.queryToSearchParams(query ?? {})}`;
-    return this.request<IPaginatedResult<INote>>(url);
+    return this.request<PaginatedResult<Note>>(url);
   }
 
-  findOne(id: number): Promise<INote> {
-    return this.request<INote>(`${this.baseUrl}/${id}`);
+  findOne(id: number): Promise<Note> {
+    return this.request<Note>(`${this.baseUrl}/${id}`);
   }
 
-  create(dto: CreateNoteDto): Promise<INote> {
-    return this.request<INote>(this.baseUrl, {
+  create(dto: CreateNoteDto): Promise<Note> {
+    return this.request<Note>(this.baseUrl, {
       method: "POST",
       body: JSON.stringify(dto),
     });

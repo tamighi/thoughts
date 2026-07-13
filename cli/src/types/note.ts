@@ -1,13 +1,13 @@
-import type { IHighlight } from "./highlight";
-import type { ILabel } from "./label";
-import type { IPaginationQuery } from "./pagination";
+import type { Highlight } from "./highlight";
+import type { Label } from "./label";
+import type { PaginationQuery } from "./pagination";
 
-export interface INote {
+export interface Note {
   id: number;
   title: string;
   content: string;
-  labels?: ILabel[];
-  highlights?: IHighlight[];
+  labels?: Label[];
+  highlights?: Highlight[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,6 +24,6 @@ export interface UpdateNoteDto {
   labelIds?: number[];
 }
 
-export interface NotesQuery extends IPaginationQuery {
+export interface NotesQuery extends PaginationQuery {
   title?: string;
 }

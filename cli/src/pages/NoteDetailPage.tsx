@@ -1,5 +1,7 @@
 import { useParams } from "@tanstack/react-router";
 import { useNote } from "@/hooks/query/useNote";
+import HighlightedNote from "@/components/HighlightedNote";
+import NoteHighlights from "@/components/NoteHighlights";
 
 const NoteDetailPage = () => {
   const { noteId } = useParams({
@@ -21,7 +23,13 @@ const NoteDetailPage = () => {
     <div>
       <h1 className="mb-4 text-3xl font-bold">{note.title}</h1>
 
-      <div className="whitespace-pre-wrap">{note.content}</div>
+      <div className="flex gap-4">
+        <HighlightedNote className="flex-1" note={note} />
+        <div className="flex-1">
+          <span>Note highlights</span>
+          <NoteHighlights note={note} />
+        </div>
+      </div>
     </div>
   );
 };

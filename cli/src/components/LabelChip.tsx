@@ -1,9 +1,9 @@
-import type { ILabel } from "@/types/label";
+import type { Label } from "@/types/label";
 import HoverCard from "@/components/HoverCard";
 import { cn } from "@/utils/cn";
 
 interface LabelChipProps {
-  label: ILabel;
+  label: Label;
   className?: string;
 }
 

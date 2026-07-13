@@ -1,5 +1,5 @@
 import { config } from "@/config";
-import type { CreateLabelDto, ILabel } from "@/types/label";
+import type { CreateLabelDto, Label } from "@/types/label";
 import { AbstractApi } from "./abstractApi";
 
 class LabelsService extends AbstractApi {
@@ -7,13 +7,13 @@ class LabelsService extends AbstractApi {
     super(`${config.apiUrl}/labels`);
   }
 
-  list(): Promise<ILabel[]> {
+  list(): Promise<Label[]> {
     const url = `${this.baseUrl}`;
-    return this.request<ILabel[]>(url);
+    return this.request<Label[]>(url);
   }
 
-  create(dto: CreateLabelDto): Promise<ILabel> {
-    return this.request<ILabel>(this.baseUrl, {
+  create(dto: CreateLabelDto): Promise<Label> {
+    return this.request<Label>(this.baseUrl, {
       method: "POST",
       body: JSON.stringify(dto),
     });

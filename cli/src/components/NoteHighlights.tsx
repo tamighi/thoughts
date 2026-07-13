@@ -1,0 +1,24 @@
+import HighlightItem from "./HighlightItem";
+import type { Note } from "@/types/note";
+
+type Props = {
+  note: Note;
+};
+
+const NoteHighlights = ({ note }: Props) => {
+  const highlights = note.highlights ?? [];
+
+  if (highlights.length === 0) {
+    return <p className="text-zinc-400">No highlights.</p>;
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      {highlights.map((highlight) => (
+        <HighlightItem key={highlight.id} highlight={highlight} />
+      ))}
+    </div>
+  );
+};
+
+export default NoteHighlights;
