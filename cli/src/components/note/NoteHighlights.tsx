@@ -1,13 +1,11 @@
+import type { Highlight } from "@/types/highlight";
 import HighlightItem from "../highlight/HighlightItem";
-import type { Note } from "@/types/note";
 
 type Props = {
-  note: Note;
+  highlights: Highlight[];
 };
 
-const NoteHighlights = ({ note }: Props) => {
-  const highlights = note.highlights ?? [];
-
+const NoteHighlights = ({ highlights }: Props) => {
   if (highlights.length === 0) {
     return <p className="text-zinc-400">No highlights.</p>;
   }

@@ -6,8 +6,8 @@ export interface Note {
   id: number;
   title: string;
   content: string;
-  labels?: Label[];
-  highlights?: Highlight[];
+  labels: Label[];
+  highlights: Highlight[];
   createdAt: Date;
   updatedAt: Date;
 }

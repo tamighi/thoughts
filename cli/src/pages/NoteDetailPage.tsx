@@ -1,14 +1,11 @@
-import { useState } from "react";
-import type { Highlight } from "@/types/highlight";
+import HighlightForm from "@/components/highlight/HighlightForm";
 import HighlightedNote from "@/components/note/HighlightedNote";
-import HighlightDialog, {
-  type HighlightSelection,
-  type SaveHighlightData,
-} from "@/components/highlight/HighlightDialog";
-import type { TextSelectionEvent } from "@/hooks/useTextSelection";
-import { useNote } from "@/hooks/query/useNote";
-import { useParams } from "@tanstack/react-router";
 import NoteHighlights from "@/components/note/NoteHighlights";
+import { useNote } from "@/hooks/query/useNote";
+import type { TextSelectionEvent } from "@/hooks/useTextSelection";
+import type { Highlight } from "@/types/highlight";
+import { useParams } from "@tanstack/react-router";
+import React from "react";
 
 const NoteDetailPage = () => {
   const { noteId } = useParams({
@@ -16,48 +13,30 @@ const NoteDetailPage = () => {
   });
   const { data: note, isLoading, error } = useNote(Number(noteId));
 
-  const [selection, setSelection] = useState<HighlightSelection>();
+  const [highlights, setHighlights] = React.useState<Partial<Highlight>[]>(
+    note?.highlights ?? [],
+  );
 
-  const [editingHighlight, setEditingHighlight] = useState<Highlight>();
+  React.useEffect(() => {
+    setHighlights(note?.highlights ?? []);
+  }, [note]);
 
-  const dialogOpen = Boolean(selection) || Boolean(editingHighlight);
-
-  const handleNewHighlight = ({ start, length }: TextSelectionEvent) => {
-    setEditingHighlight(undefined);
-    setSelection({ start, length });
-  };
-
-  const handleHighlightClick = (highlight: Highlight) => {
-    setSelection(undefined);
-    setEditingHighlight(highlight);
-  };
-
-  const handleClose = () => {
-    setSelection(undefined);
-    setEditingHighlight(undefined);
-    window.getSelection()?.removeAllRanges();
-  };
-
-  const handleSave = async (data: SaveHighlightData) => {
-    if (!note) return;
-
-    if (editingHighlight) {
-      console.log("Update highlight", {
-        id: editingHighlight.id,
-        ...data,
-      });
-    } else {
-      console.log("Create highlight", {
-        noteId: note.id,
-        ...data,
-      });
-    }
-
-    handleClose();
-  };
+  const [editingHighlight, setEditingHighlight] =
+    React.useState<Partial<Highlight>>();
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !note) return <div>Failed to load note.</div>;
+
+  const handleNewHighlight = ({ start, length }: TextSelectionEvent) => {
+    const newHighlight = { start, length, noteId: note.id };
+    setEditingHighlight(newHighlight);
+
+    setHighlights([...note.highlights, newHighlight]);
+  };
+
+  const handleHighlightClick = (highlight: Highlight) => {
+    setEditingHighlight(highlight);
+  };
 
   return (
     <div className="flex gap-2">
@@ -65,23 +44,17 @@ const NoteDetailPage = () => {
         <h1 className="mb-4 text-3xl font-bold">{note.title}</h1>
 
         <HighlightedNote
-          note={note}
+          content={note.content}
+          highlights={highlights}
           onNewHighlight={handleNewHighlight}
           onHighlightClick={handleHighlightClick}
         />
       </div>
-      <div className="flex-1">
-        <h1 className="mb-4 text-3xl font-bold">Highlights</h1>
-        <NoteHighlights note={note} />
+      <div className="flex-1 flex flex-col gap-4">
+        <h1 className="text-3xl font-bold">Highlights</h1>
+        {editingHighlight && <HighlightForm highlight={editingHighlight} />}
+        <NoteHighlights highlights={note.highlights} />
       </div>
-      <HighlightDialog
-        open={dialogOpen}
-        note={note}
-        selection={selection}
-        highlight={editingHighlight}
-        onClose={handleClose}
-        onSave={handleSave}
-      />
     </div>
   );
 };

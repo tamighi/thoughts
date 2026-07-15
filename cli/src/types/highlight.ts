@@ -21,10 +21,4 @@ export interface CreateHighlightDto {
   labelIds?: number[];
 }
 
-export interface UpdateHighlightDto {
-  start?: number;
-  length?: number;
-  comment?: string;
-  noteId?: number;
-  labelIds?: number[];
-}
+export interface UpdateHighlightDto extends Partial<CreateHighlightDto> {}

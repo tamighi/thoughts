@@ -1,4 +1,3 @@
-import type { Note } from "@/types/note";
 import type { Highlight } from "@/types/highlight";
 import {
   useCallback,
@@ -14,14 +13,16 @@ import {
 } from "@/hooks/useTextSelection";
 
 interface HighlightedNoteProps extends HTMLAttributes<HTMLDivElement> {
-  note: Note;
+  content: string;
+  highlights: Highlight[];
   selectionEnabled?: boolean;
   onHighlightClick?: (highlight: Highlight) => void;
   onNewHighlight?: (selection: TextSelectionEvent) => void;
 }
 
 const HighlightedNote = ({
-  note,
+  content,
+  highlights,
   className,
   selectionEnabled = true,
   onHighlightClick,
@@ -42,9 +43,7 @@ const HighlightedNote = ({
     onSelect: handleSelection,
   });
 
-  const highlights = [...(note.highlights ?? [])].sort(
-    (a, b) => a.start - b.start,
-  );
+  const sortedHighlights = highlights.sort((a, b) => a.start - b.start);
 
   const handleHighlightClick = (
     event: MouseEvent<HTMLSpanElement>,
@@ -63,10 +62,10 @@ const HighlightedNote = ({
       className={cn("whitespace-break-spaces", className)}
       {...props}
     >
-      {highlights.map((highlight) => {
-        const before = note.content.slice(cursor, highlight.start);
+      {sortedHighlights.map((highlight) => {
+        const before = content.slice(cursor, highlight.start);
 
-        const highlightedContent = note.content.slice(
+        const highlightedContent = content.slice(
           highlight.start,
           highlight.start + highlight.length,
         );
@@ -74,7 +73,7 @@ const HighlightedNote = ({
         cursor = highlight.start + highlight.length;
 
         return (
-          <span key={highlight.id}>
+          <span key={highlight.id ?? 0}>
             {before}
 
             <HoverCard content={highlight.comment}>
@@ -82,18 +81,14 @@ const HighlightedNote = ({
                 role={onHighlightClick ? "button" : undefined}
                 tabIndex={onHighlightClick ? 0 : undefined}
                 className={cn(
-                  "rounded bg-yellow-300/30 p-0.5",
-                  onHighlightClick && "cursor-pointer hover:bg-yellow-300/50",
+                  "cursor-pointer bg-yellow-300/30 hover:bg-yellow-300/50",
                 )}
                 onClick={(event) => handleHighlightClick(event, highlight)}
                 onKeyDown={(event) => {
-                  if (
-                    onHighlightClick &&
-                    (event.key === "Enter" || event.key === " ")
-                  ) {
+                  if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
                     window.getSelection()?.removeAllRanges();
-                    onHighlightClick(highlight);
+                    onHighlightClick?.(highlight);
                   }
                 }}
               >
@@ -104,7 +99,7 @@ const HighlightedNote = ({
         );
       })}
 
-      {note.content.slice(cursor)}
+      {content.slice(cursor)}
     </div>
   );
 };
