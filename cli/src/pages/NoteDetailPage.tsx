@@ -1,5 +1,7 @@
 import HighlightForm from "@/components/highlight/HighlightForm";
-import HighlightedNote from "@/components/note/HighlightedNote";
+import HighlightedNote, {
+  type HighlightWithColor,
+} from "@/components/note/HighlightedNote";
 import NoteHighlights from "@/components/note/NoteHighlights";
 import { useNote } from "@/hooks/query/useNote";
 import type { TextSelectionEvent } from "@/hooks/useTextSelection";
@@ -13,7 +15,7 @@ const NoteDetailPage = () => {
   });
   const { data: note, isLoading, error } = useNote(Number(noteId));
 
-  const [highlights, setHighlights] = React.useState<Partial<Highlight>[]>(
+  const [highlights, setHighlights] = React.useState<HighlightWithColor[]>(
     note?.highlights ?? [],
   );
 
@@ -28,7 +30,12 @@ const NoteDetailPage = () => {
   if (error || !note) return <div>Failed to load note.</div>;
 
   const handleNewHighlight = ({ start, length }: TextSelectionEvent) => {
-    const newHighlight = { start, length, noteId: note.id };
+    const newHighlight = {
+      start,
+      length,
+      noteId: note.id,
+      color: "red",
+    } as HighlightWithColor;
     setEditingHighlight(newHighlight);
 
     setHighlights([...note.highlights, newHighlight]);
@@ -36,6 +43,11 @@ const NoteDetailPage = () => {
 
   const handleHighlightClick = (highlight: Highlight) => {
     setEditingHighlight(highlight);
+    setHighlights(
+      note.highlights.map((h) =>
+        h.id === highlight.id ? { ...h, color: "red" } : h,
+      ),
+    );
   };
 
   return (

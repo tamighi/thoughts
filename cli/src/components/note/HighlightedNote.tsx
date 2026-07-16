@@ -1,20 +1,25 @@
+import {
+  useTextSelection,
+  type TextSelectionEvent,
+} from "@/hooks/useTextSelection";
 import type { Highlight } from "@/types/highlight";
+import { cn } from "@/utils/cn";
 import {
   useCallback,
+  useMemo,
   useRef,
   type HTMLAttributes,
   type MouseEvent,
 } from "react";
 import HoverCard from "../ui/HoverCard";
-import { cn } from "@/utils/cn";
-import {
-  useTextSelection,
-  type TextSelectionEvent,
-} from "@/hooks/useTextSelection";
+
+export type HighlightWithColor = Highlight & {
+  color?: string;
+};
 
 interface HighlightedNoteProps extends HTMLAttributes<HTMLDivElement> {
   content: string;
-  highlights: Highlight[];
+  highlights: HighlightWithColor[];
   selectionEnabled?: boolean;
   onHighlightClick?: (highlight: Highlight) => void;
   onNewHighlight?: (selection: TextSelectionEvent) => void;
@@ -31,19 +36,37 @@ const HighlightedNote = ({
 }: HighlightedNoteProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
+  const sortedHighlights = useMemo(
+    () => [...highlights].sort((a, b) => a.start - b.start),
+    [highlights],
+  );
+
   const handleSelection = useCallback(
     (selection: TextSelectionEvent) => {
+      const selectionStart = selection.start;
+      const selectionEnd = selection.start + selection.length;
+
+      const overlapsExistingHighlight = highlights.some((highlight) => {
+        const highlightStart = highlight.start;
+        const highlightEnd = highlight.start + highlight.length;
+
+        return selectionStart < highlightEnd && selectionEnd > highlightStart;
+      });
+
+      if (overlapsExistingHighlight) {
+        window.getSelection()?.removeAllRanges();
+        return;
+      }
+
       onNewHighlight?.(selection);
     },
-    [onNewHighlight],
+    [highlights, onNewHighlight],
   );
 
   useTextSelection(contentRef, {
     enabled: selectionEnabled && Boolean(onNewHighlight),
     onSelect: handleSelection,
   });
-
-  const sortedHighlights = highlights.sort((a, b) => a.start - b.start);
 
   const handleHighlightClick = (
     event: MouseEvent<HTMLSpanElement>,
@@ -73,22 +96,26 @@ const HighlightedNote = ({
         cursor = highlight.start + highlight.length;
 
         return (
-          <span key={highlight.id ?? 0}>
+          <span key={highlight.start}>
             {before}
 
             <HoverCard content={highlight.comment}>
               <span
                 role={onHighlightClick ? "button" : undefined}
                 tabIndex={onHighlightClick ? 0 : undefined}
-                className={cn(
-                  "cursor-pointer bg-yellow-300/30 hover:bg-yellow-300/50",
-                )}
+                className={cn(onHighlightClick && "cursor-pointer")}
+                style={{
+                  backgroundColor: highlight.color ?? "rgb(253 224 71 / 0.3)",
+                }}
                 onClick={(event) => handleHighlightClick(event, highlight)}
                 onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
+                  if (
+                    onHighlightClick &&
+                    (event.key === "Enter" || event.key === " ")
+                  ) {
                     event.preventDefault();
                     window.getSelection()?.removeAllRanges();
-                    onHighlightClick?.(highlight);
+                    onHighlightClick(highlight);
                   }
                 }}
               >
