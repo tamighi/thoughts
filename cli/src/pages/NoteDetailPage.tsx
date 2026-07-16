@@ -3,7 +3,7 @@ import HighlightedNote, {
   type HighlightWithColor,
 } from "@/components/note/HighlightedNote";
 import NoteHighlights from "@/components/note/NoteHighlights";
-import { useNote } from "@/hooks/query/useNote";
+import { useNote } from "@/hooks/query/notes/useNote";
 import type { TextSelectionEvent } from "@/hooks/useTextSelection";
 import type { Highlight } from "@/types/highlight";
 import { useParams } from "@tanstack/react-router";

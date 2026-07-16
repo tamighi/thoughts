@@ -2,6 +2,8 @@ import type { Highlight } from "@/types/highlight";
 import Button from "@/components/ui/Button";
 import Textarea from "@/components/ui/Textarea";
 import React from "react";
+import { useCreateHighlight } from "@/hooks/query/highlights/useCreateHighlight";
+import { useUpdateHighlight } from "@/hooks/query/highlights/useUpdateHighlight";
 
 interface HighlightFormProps {
   highlight: Partial<Highlight>;
@@ -10,6 +12,9 @@ interface HighlightFormProps {
 const HighlightForm = ({ highlight }: HighlightFormProps) => {
   const [comment, setComment] = React.useState("");
 
+  const createHighlight = useCreateHighlight();
+  const updateHighlight = useUpdateHighlight();
+
   React.useEffect(() => {
     setComment(highlight.comment ?? "");
   }, [highlight]);
@@ -17,10 +22,20 @@ const HighlightForm = ({ highlight }: HighlightFormProps) => {
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    //TODO: Other state here + handle save
+    if (highlight.id) {
+      updateHighlight.mutate({
+        id: highlight.id,
+        dto: { ...highlight, comment: comment.trim() },
+      });
+    } else {
+      createHighlight.mutate({
+        ...(highlight as Highlight),
+        comment: comment.trim(),
+      });
+    }
   };
 
-  const isSaving = false;
+  const isSaving = createHighlight.isPending || updateHighlight.isPending;
 
   return (
     <div className="flex flex-col gap-4 items-start rounded-lg border border-zinc-800 p-4">

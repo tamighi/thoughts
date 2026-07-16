@@ -26,7 +26,11 @@ const NoteListItem = ({ note }: NoteListItemProps) => {
         </div>
       </div>
 
-      <HighlightedNote className="line-clamp-4" note={note} />
+      <HighlightedNote
+        className="line-clamp-4"
+        highlights={note.highlights}
+        content={note.content}
+      />
     </div>
   );
 };

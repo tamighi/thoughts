@@ -101,23 +101,11 @@ const HighlightedNote = ({
 
             <HoverCard content={highlight.comment}>
               <span
-                role={onHighlightClick ? "button" : undefined}
-                tabIndex={onHighlightClick ? 0 : undefined}
-                className={cn(onHighlightClick && "cursor-pointer")}
+                className="cursor-pointer"
                 style={{
                   backgroundColor: highlight.color ?? "rgb(253 224 71 / 0.3)",
                 }}
                 onClick={(event) => handleHighlightClick(event, highlight)}
-                onKeyDown={(event) => {
-                  if (
-                    onHighlightClick &&
-                    (event.key === "Enter" || event.key === " ")
-                  ) {
-                    event.preventDefault();
-                    window.getSelection()?.removeAllRanges();
-                    onHighlightClick(highlight);
-                  }
-                }}
               >
                 {highlightedContent}
               </span>
