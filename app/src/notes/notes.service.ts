@@ -65,7 +65,9 @@ export class NotesService {
       where: { id },
       relations: {
         labels: true,
-        highlights: true,
+        highlights: {
+          labels: true,
+        },
       },
     });
   }

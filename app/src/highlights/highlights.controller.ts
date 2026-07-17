@@ -37,7 +37,6 @@ export class HighlightsController {
     @Param("id", ParseIntPipe) id: number,
     @Body() dto: UpdateHighlightDto,
   ) {
-    console.log(dto);
     return this.highlightsService.update(id, dto);
   }
 
