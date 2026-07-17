@@ -1,6 +1,5 @@
 import type { Note } from "@/types/note";
 import { Link } from "@tanstack/react-router";
-import HighlightedNote from "./HighlightedNote";
 import LabelChip from "../label/LabelChip";
 
 interface NoteListItemProps {
@@ -10,7 +9,7 @@ interface NoteListItemProps {
 const NoteListItem = ({ note }: NoteListItemProps) => {
   return (
     <div>
-      <div className="mb-2 flex gap-2">
+      <div className="mb-2 flex gap-2 items-center">
         <Link
           to="/notes/$noteId"
           params={{ noteId: note.id.toString() }}
@@ -18,6 +17,7 @@ const NoteListItem = ({ note }: NoteListItemProps) => {
         >
           {note.title}
         </Link>
+        <span className="italic">({note.highlights.length} highlights)</span>
 
         <div className="flex gap-2">
           {note.labels?.map((label) => (
@@ -26,11 +26,9 @@ const NoteListItem = ({ note }: NoteListItemProps) => {
         </div>
       </div>
 
-      <HighlightedNote
-        className="line-clamp-4"
-        highlights={note.highlights}
-        content={note.content}
-      />
+      <span className="line-clamp-4 whitespace-break-spaces">
+        {note.content}
+      </span>
     </div>
   );
 };
