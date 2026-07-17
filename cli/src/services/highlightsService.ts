@@ -24,6 +24,12 @@ class HighlightsService extends AbstractApi {
       body: JSON.stringify(dto),
     });
   }
+
+  delete(id: number): Promise<void> {
+    return this.request<void>(`${this.baseUrl}/${id}`, {
+      method: "DELETE",
+    });
+  }
 }
 
 export const highlightsService = new HighlightsService();

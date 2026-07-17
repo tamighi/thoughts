@@ -19,12 +19,13 @@ const NoteDetailPage = () => {
     note?.highlights ?? [],
   );
 
-  React.useEffect(() => {
-    setHighlights(note?.highlights ?? []);
-  }, [note]);
-
   const [editingHighlight, setEditingHighlight] =
     React.useState<Partial<Highlight>>();
+
+  React.useEffect(() => {
+    setHighlights(note?.highlights ?? []);
+    setEditingHighlight(undefined);
+  }, [note]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !note) return <div>Failed to load note.</div>;
