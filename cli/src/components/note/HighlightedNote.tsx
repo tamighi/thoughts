@@ -12,19 +12,24 @@ import {
   type MouseEvent,
 } from "react";
 import HoverPopover from "../ui/HoverPopover";
-
-export type HighlightWithColor = Highlight & {
-  color?: string;
-};
+import type {
+  HighlightState,
+  HighlightWithState,
+} from "@/pages/NoteDetailPage";
 
 interface HighlightedNoteProps extends HTMLAttributes<HTMLDivElement> {
   content: string;
-  highlights: HighlightWithColor[];
+  highlights: HighlightWithState[];
   selectionEnabled?: boolean;
   onHighlightClick?: (highlight: Highlight) => void;
   onHighlightHover?: (highlight: Highlight | null) => void;
   onNewHighlight?: (selection: TextSelectionEvent) => void;
 }
+
+const stateColorMap = {
+  editing: "red",
+  hovering: "purple",
+} satisfies { [key in HighlightState]: string };
 
 const HighlightedNote = ({
   content,
@@ -105,7 +110,9 @@ const HighlightedNote = ({
               <span
                 className="cursor-pointer"
                 style={{
-                  backgroundColor: highlight.color ?? "rgb(253 224 71 / 0.3)",
+                  backgroundColor: highlight.state
+                    ? stateColorMap[highlight.state]
+                    : "gray",
                 }}
                 onClick={(event) => handleHighlightClick(event, highlight)}
                 onMouseEnter={() => onHighlightHover?.(highlight)}

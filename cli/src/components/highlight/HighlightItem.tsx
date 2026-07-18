@@ -4,12 +4,14 @@ import Button from "@/components/ui/Button";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { useDeleteHighlight } from "@/hooks/query/highlights/useDeleteHighlight";
 import type { Highlight } from "@/types/highlight";
+import { cn } from "@/utils/cn";
 
 type Props = {
   highlight: Highlight;
+  focus?: boolean;
 };
 
-const HighlightItem = ({ highlight }: Props) => {
+const HighlightItem = ({ highlight, focus }: Props) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const deleteHighlight = useDeleteHighlight();
@@ -22,8 +24,13 @@ const HighlightItem = ({ highlight }: Props) => {
 
   return (
     <>
-      <div className="rounded-lg border border-zinc-800 p-4">
-        <div className="flex justify-between gap-4">
+      <div
+        className={cn(
+          "rounded-lg border p-4 transition-all duration-200",
+          focus ? "border-zinc-500 ring-1 ring-zinc-500/30" : "border-zinc-800",
+        )}
+      >
+        <div className="flex justify-between items-start gap-4">
           <div className="flex-1">
             {highlight.comment && (
               <p className="mb-3 whitespace-pre-wrap">{highlight.comment}</p>
