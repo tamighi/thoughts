@@ -42,6 +42,20 @@ const NoteDetailPage = () => {
     setHighlights([...note.highlights, newHighlight]);
   };
 
+  const onHighlightHover = (highlight: Highlight | null) => {
+    if (highlight) {
+      setHighlights((hs) =>
+        hs.map((h) => (h.id === highlight.id ? { ...h, color: "purple" } : h)),
+      );
+    } else {
+      setHighlights(
+        note.highlights.map((h) =>
+          h.id === editingHighlight?.id ? { ...h, color: "red" } : h,
+        ),
+      );
+    }
+  };
+
   const handleHighlightClick = (highlight: Highlight) => {
     setEditingHighlight(highlight);
     setHighlights(
@@ -61,6 +75,7 @@ const NoteDetailPage = () => {
           highlights={highlights}
           onNewHighlight={handleNewHighlight}
           onHighlightClick={handleHighlightClick}
+          onHighlightHover={onHighlightHover}
         />
       </div>
       <div className="flex-1 flex flex-col gap-4">

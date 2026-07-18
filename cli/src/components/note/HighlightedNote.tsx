@@ -11,7 +11,7 @@ import {
   type HTMLAttributes,
   type MouseEvent,
 } from "react";
-import HoverCard from "../ui/HoverCard";
+import HoverPopover from "../ui/HoverPopover";
 
 export type HighlightWithColor = Highlight & {
   color?: string;
@@ -22,6 +22,7 @@ interface HighlightedNoteProps extends HTMLAttributes<HTMLDivElement> {
   highlights: HighlightWithColor[];
   selectionEnabled?: boolean;
   onHighlightClick?: (highlight: Highlight) => void;
+  onHighlightHover?: (highlight: Highlight | null) => void;
   onNewHighlight?: (selection: TextSelectionEvent) => void;
 }
 
@@ -31,6 +32,7 @@ const HighlightedNote = ({
   className,
   selectionEnabled = true,
   onHighlightClick,
+  onHighlightHover,
   onNewHighlight,
   ...props
 }: HighlightedNoteProps) => {
@@ -99,17 +101,19 @@ const HighlightedNote = ({
           <span key={highlight.start}>
             {before}
 
-            <HoverCard content={highlight.comment}>
+            <HoverPopover content={highlight.comment}>
               <span
                 className="cursor-pointer"
                 style={{
                   backgroundColor: highlight.color ?? "rgb(253 224 71 / 0.3)",
                 }}
                 onClick={(event) => handleHighlightClick(event, highlight)}
+                onMouseEnter={() => onHighlightHover?.(highlight)}
+                onMouseLeave={() => onHighlightHover?.(null)}
               >
                 {highlightedContent}
               </span>
-            </HoverCard>
+            </HoverPopover>
           </span>
         );
       })}

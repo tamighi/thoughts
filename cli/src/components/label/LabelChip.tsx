@@ -1,5 +1,5 @@
 import type { Label } from "@/types/label";
-import HoverCard from "@/components/ui/HoverCard";
+import HoverPopover from "@/components/ui/HoverPopover";
 import { cn } from "@/utils/cn";
 
 interface LabelChipProps {
@@ -10,7 +10,7 @@ interface LabelChipProps {
 const LabelChip = ({ label, className }: LabelChipProps) => {
   return (
     <span className={cn("group relative inline-block", className)}>
-      <HoverCard content={label.definition}>
+      <HoverPopover content={label.definition}>
         <span
           className={cn(
             "inline-flex items-center rounded-full",
@@ -20,7 +20,7 @@ const LabelChip = ({ label, className }: LabelChipProps) => {
         >
           {label.content}
         </span>
-      </HoverCard>
+      </HoverPopover>
     </span>
   );
 };

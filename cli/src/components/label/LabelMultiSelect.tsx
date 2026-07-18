@@ -1,5 +1,4 @@
 import { useLabels } from "@/hooks/query/labels/useLabels";
-import type { Label } from "@/types/label";
 import MultiSelect from "@/components/ui/MultiSelect";
 
 interface LabelMultiSelectProps {
@@ -16,7 +15,7 @@ const LabelMultiSelect = ({
   const { data: labels = [], isLoading } = useLabels();
 
   return (
-    <MultiSelect<Label, "id", "content">
+    <MultiSelect
       options={labels}
       value={value}
       onChange={onChange}
